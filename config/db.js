@@ -32,6 +32,46 @@ console.log("Database (connectionString):", connectionString ? "[provided]" : "[
 // Helper to emulate some mysql behaviors used elsewhere in the codebase
 async function query(sql, paramsOrCallback, maybeCallback) {
 
+    // Sanitize SQL produced by AI or templates: convert common MySQL tokens
+    function sanitizeSQL(input) {
+        if (typeof input !== 'string') return input;
+
+        let s = input;
+
+        // Remove backticks
+        s = s.replace(/`/g, "");
+
+        // INT AUTO_INCREMENT -> SERIAL
+        s = s.replace(/\bBIGINT\s+AUTO_INCREMENT\b/gi, 'BIGSERIAL');
+        s = s.replace(/\bINT\s+AUTO_INCREMENT\b/gi, 'SERIAL');
+        // Any remaining AUTO_INCREMENT remove
+        s = s.replace(/\bAUTO_INCREMENT\b/gi, '');
+
+        // TINYINT(1) -> BOOLEAN
+        s = s.replace(/\bTINYINT\s*\(1\)\b/gi, 'BOOLEAN');
+
+        // Remove UNSIGNED
+        s = s.replace(/\bUNSIGNED\b/gi, '');
+
+        // Remove ENGINE=..., DEFAULT CHARSET=...
+        s = s.replace(/ENGINE\s*=\s*[^\s;]+/gi, '');
+        s = s.replace(/DEFAULT\s+CHARSET\s*=\s*[^\s;]+/gi, '');
+
+        // Collapse multiple spaces
+        s = s.replace(/\s{2,}/g, ' ');
+
+        return s.trim();
+    }
+
+    // apply sanitizer if sql is a string
+    if (typeof sql === 'string') {
+        const sanitized = sanitizeSQL(sql);
+        if (sanitized !== sql) {
+            console.log('SQL sanitized. Original:\n', sql, '\nSanitized:\n', sanitized);
+            sql = sanitized;
+        }
+    }
+
     let params;
     let cb;
 
