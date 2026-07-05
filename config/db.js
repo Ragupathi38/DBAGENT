@@ -40,7 +40,8 @@ async function query(sql, paramsOrCallback, maybeCallback) {
             // Return rows in a shape similar to MySQL's SHOW TABLES: [{Tables_in_db: 'table1'}, ...]
             const keyName = `Tables_in_${process.env.DB_NAME || "db"}`;
             const rows = res.rows.map(r => ({ [keyName]: r.table_name }));
-            return cb && cb(null, rows);
+            if (cb) return cb(null, rows);
+            return { rows };
         }
 
         const showColumnsMatch = sql.trim().match(/^SHOW\s+COLUMNS\s+FROM\s+(.+)$/i);
@@ -58,7 +59,8 @@ async function query(sql, paramsOrCallback, maybeCallback) {
             );
             // Map to MySQL DESCRIBE/SHOW COLUMNS format: Field, Type
             const mapped = colRes.rows.map(r => ({ Field: r.column_name, Type: r.data_type }));
-            return cb && cb(null, mapped);
+            if (cb) return cb(null, mapped);
+            return { rows: mapped };
         }
 
         // Regular query
@@ -66,12 +68,14 @@ async function query(sql, paramsOrCallback, maybeCallback) {
 
         // For SELECT return rows array like mysql
         if (res.command === "SELECT") {
-            return cb && cb(null, res.rows);
+            if (cb) return cb(null, res.rows);
+            return { rows: res.rows };
         }
 
         // For INSERT/UPDATE/DELETE, emulate affectedRows
         res.affectedRows = res.rowCount;
-        return cb && cb(null, res);
+        if (cb) return cb(null, res);
+        return res;
 
     } catch (err) {
         return cb && cb(err);

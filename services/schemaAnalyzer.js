@@ -2,23 +2,12 @@ const db = require("../config/db");
 
 async function getTables() {
 
-    return new Promise((resolve, reject) => {
-
-        db.query("SHOW TABLES", (err, results) => {
-
-            if (err) {
-                return reject(err);
-            }
-
-            const key = Object.keys(results[0])[0];
-
-            const tables = results.map(row => row[key]);
-
-            resolve(tables);
-
-        });
-
-    });
+    const res = await db.query("SHOW TABLES");
+    const results = res.rows || res;
+    if (!results || results.length === 0) return [];
+    const key = Object.keys(results[0])[0];
+    const tables = results.map(row => row[key]);
+    return tables;
 
 }
 

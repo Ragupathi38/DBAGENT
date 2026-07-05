@@ -10,69 +10,51 @@ let knowledge = {
 
 async function loadKnowledge() {
 
-    return new Promise((resolve, reject) => {
+    const result = await db.query("SHOW TABLES");
+    const tables = result.rows || result; // support both shapes
 
-        db.query("SHOW TABLES", async (err, tables) => {
+    if (!Array.isArray(tables) || tables.length === 0) {
+        knowledge.tables = {};
+        console.log("✅ Database Knowledge Loaded (no tables)");
+        return;
+    }
 
-            if (err) {
-                return reject(err);
-            }
+    const tableKey = Object.keys(tables[0])[0];
 
-            const tableKey = Object.keys(tables[0])[0];
+    knowledge.tables = {};
 
-            knowledge.tables = {};
+    for (const row of tables) {
 
-            for (const row of tables) {
+        const tableName = row[tableKey];
 
-                const tableName = row[tableKey];
+        const columns = await getColumns(tableName);
 
-                const columns = await getColumns(tableName);
+        knowledge.tables[tableName] = {
 
-                knowledge.tables[tableName] = {
+            columns,
 
-                    columns,
+            aliases: [
+                tableName,
+                tableName.endsWith("s")
+                    ? tableName.slice(0, -1)
+                    : tableName
+            ]
 
-                    aliases: [
-                        tableName,
-                        tableName.endsWith("s")
-                            ? tableName.slice(0, -1)
-                            : tableName
-                    ]
+        };
 
-                };
+    }
 
-            }
-
-            console.log("✅ Database Knowledge Loaded");
-
-            resolve();
-
-        });
-
-    });
+    console.log("✅ Database Knowledge Loaded");
 
 }
 
 // ==========================================
 
-function getColumns(tableName) {
+async function getColumns(tableName) {
 
-    return new Promise((resolve, reject) => {
-
-        db.query(
-            `SHOW COLUMNS FROM ${tableName}`,
-            (err, result) => {
-
-                if (err) {
-                    return reject(err);
-                }
-
-                resolve(result.map(col => col.Field));
-
-            }
-        );
-
-    });
+    const result = await db.query(`SHOW COLUMNS FROM ${tableName}`);
+    const rows = result.rows || result;
+    return rows.map(col => col.Field);
 
 }
 

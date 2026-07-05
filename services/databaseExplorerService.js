@@ -2,83 +2,34 @@ const db = require("../config/db");
 
 async function getDatabaseInfo() {
 
-    return new Promise((resolve, reject) => {
+    try {
 
-        db.query("SHOW TABLES", async (err, tables) => {
+        const result = [];
 
-            if (err) {
+        const res = await db.query("SHOW TABLES");
+        const tables = res.rows || res;
 
-                return reject(err);
+        for (const table of tables) {
 
-            }
+            const tableName = Object.values(table)[0];
 
-            try {
+            const countRes = await db.query(`SELECT COUNT(*) AS count FROM ${tableName}`);
+            const rows = (countRes.rows || countRes)[0].count;
 
-                const result = [];
+            const colsRes = await db.query(`SHOW COLUMNS FROM ${tableName}`);
+            const columns = (colsRes.rows || colsRes).length;
 
-                for (const table of tables) {
+            result.push({ name: tableName, rows, columns });
 
-                    const tableName = Object.values(table)[0];
+        }
 
-                    const rows = await new Promise((resolve, reject) => {
+        return { database: process.env.DB_NAME, tables: result };
 
-                        db.query(
-                            `SELECT COUNT(*) AS count FROM \`${tableName}\``,
-                            (err, data) => {
+    } catch (error) {
 
-                                if (err) return reject(err);
+        throw error;
 
-                                resolve(data[0].count);
-
-                            }
-                        );
-
-                    });
-
-                    const columns = await new Promise((resolve, reject) => {
-
-                        db.query(
-                            `SHOW COLUMNS FROM \`${tableName}\``,
-                            (err, data) => {
-
-                                if (err) return reject(err);
-
-                                resolve(data.length);
-
-                            }
-                        );
-
-                    });
-
-                    result.push({
-
-                        name: tableName,
-
-                        rows,
-
-                        columns
-
-                    });
-
-                }
-
-                resolve({
-
-                    database: process.env.DB_NAME,
-
-                    tables: result
-
-                });
-
-            } catch (error) {
-
-                reject(error);
-
-            }
-
-        });
-
-    });
+    }
 
 }
 

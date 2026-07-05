@@ -2,21 +2,9 @@ const db = require("../config/db");
 
 async function getColumns(tableName) {
 
-    return new Promise((resolve, reject) => {
-
-        db.query(`SHOW COLUMNS FROM ${tableName}`, (err, results) => {
-
-            if (err) {
-                return reject(err);
-            }
-
-            const columns = results.map(col => col.Field);
-
-            resolve(columns);
-
-        });
-
-    });
+    const result = await db.query(`SHOW COLUMNS FROM ${tableName}`);
+    const rows = result.rows || result;
+    return rows.map(col => col.Field);
 
 }
 
@@ -24,15 +12,12 @@ async function findColumn(columnName) {
 
     return new Promise(async (resolve, reject) => {
 
-        try {
+            try {
 
-            db.query("SHOW TABLES", async (err, tables) => {
+                const result = await db.query("SHOW TABLES");
+                const tables = result.rows || result;
 
-                if (err) {
-                    return reject(err);
-                }
-
-                const key = Object.keys(tables[0])[0];
+                const key = tables.length ? Object.keys(tables[0])[0] : null;
 
                 const matches = [];
 
@@ -59,15 +44,13 @@ async function findColumn(columnName) {
 
                 resolve(matches);
 
-            });
+            }
 
-        }
+            catch (err) {
 
-        catch (err) {
+                reject(err);
 
-            reject(err);
-
-        }
+            }
 
     });
 
