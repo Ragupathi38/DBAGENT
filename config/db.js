@@ -90,7 +90,9 @@ async function query(sql, paramsOrCallback, maybeCallback) {
         return res;
 
     } catch (err) {
-        return cb && cb(err);
+        console.error("DB query error:", { sql, params, message: err.message });
+        if (cb) return cb(err);
+        throw err;
     }
 
 }
