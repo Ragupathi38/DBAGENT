@@ -19,6 +19,7 @@ const executeRoutes = require("./routes/executeRoutes");
 const databaseRoutes = require("./routes/databaseRoutes");
 const recoveryRoutes = require("./routes/recoveryRoutes");
 const memoryRoutes = require("./routes/memoryRoutes");
+const dbRoutes = require("./routes/dbRoutes");
 
 // =============================
 
@@ -38,6 +39,7 @@ app.use("/api", executeRoutes);
 app.use("/api", databaseRoutes);
 app.use("/api", recoveryRoutes);
 app.use("/api", memoryRoutes);
+app.use("/api", dbRoutes);
 // =============================
 
 const PORT = process.env.PORT || 3000;
