@@ -5,6 +5,18 @@ const { Pool } = require("pg");
 // Prefer a full connection string (e.g. Render/Neon) via DATABASE_URL
 const connectionString = process.env.DATABASE_URL || process.env.PG_CONNECTION_STRING || process.env.DB_URL;
 
+// Detect if user accidentally supplied a REST endpoint (PostgREST) instead of a
+// PostgreSQL connection string. Neon provides both: a REST URL (https://.../rest/v1)
+// and a SQL connection string (postgres:// or postgresql://). Using the REST URL
+// here will not work with `pg` and will cause silent failures.
+if (connectionString && connectionString.startsWith("http")) {
+    console.error("Detected HTTP REST endpoint in DATABASE_URL. This must be a PostgreSQL connection string (postgres://...).");
+    console.error("If you intended to use Neon SQL, set DATABASE_URL to the PostgreSQL URI, for example:");
+    console.error("postgres://neondb_owner:REDACTED@ep-xxxx.neon.tech/neondb?sslmode=require");
+    console.error("If you want to use Neon REST (PostgREST), you must update your app to call the REST API via HTTPS with the correct API key — pg cannot use an HTTP REST endpoint.");
+    throw new Error("DATABASE_URL appears to be an HTTP REST endpoint. Provide a PostgreSQL connection string instead.");
+}
+
 const pool = new Pool({
     connectionString,
     // Neon requires SSL; allow the connection string to opt-in via ?sslmode=require
