@@ -236,8 +236,8 @@ function buildCreateTableSQL() {
 
     let sql = `CREATE TABLE ${conversation.tableName} (\n`;
 
-    sql +=
-`    id INT AUTO_INCREMENT PRIMARY KEY,\n`;
+    // Use PostgreSQL SERIAL for auto-increment primary key
+    sql += `    id SERIAL PRIMARY KEY,\n`;
 
 console.log("Conversation Columns:");
 console.log(conversation.columns);

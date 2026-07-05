@@ -45,7 +45,16 @@ Do not explain anything.
 
         const response = await aiService(prompt);
 
-        let text = response.text || response;
+        // Normalize response to string safely
+        let text;
+        if (response && typeof response.text === "string") {
+            text = response.text;
+        } else if (typeof response === "string") {
+            text = response;
+        } else {
+            // Fallback: stringify non-string responses
+            text = JSON.stringify(response);
+        }
 
         // Remove markdown if AI returns ```json
         text = text
