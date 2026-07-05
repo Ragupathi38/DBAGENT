@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>DBAgent</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- ============================= -->
+    <!-- Sidebar -->
+    <!-- ============================= -->
+
+    <aside class="sidebar">
+
+        <h2>
+            📂 Database Explorer
+        </h2>
+
+        <h3 id="databaseName">
+
+            Loading...
+
+        </h3>
+
+        <div id="databaseExplorer">
+
+        </div>
+
+    </aside>
+
+    <!-- ============================= -->
+    <!-- Main -->
+    <!-- ============================= -->
+
+    <main class="main">
+
+        <!-- Header -->
+
+        <div class="top-header">
+
+            <h1>
+
+                🤖 AI Database Agent
+
+            </h1>
+
+            <p class="subtitle">
+
+                Ask questions in plain English. I'll generate SQL and execute it.
+
+            </p>
+
+        </div>
+
+        <!-- Ask Box -->
+
+        <div class="main-input">
+
+            <input
+
+                id="question"
+
+                type="text"
+
+                placeholder="Example : Show all students"
+
+                autocomplete="off">
+
+            <button
+
+                id="askButton"
+
+                onclick="askAI()">
+
+                🚀 Ask AI
+
+            </button>
+
+        </div>
+
+        <!-- SQL -->
+
+        <div class="section">
+
+            <h2>
+
+                Generated SQL
+
+            </h2>
+
+            <pre id="sql">
+
+Waiting for query...
+
+            </pre>
+
+        </div>
+
+        <!-- Results -->
+
+        <div class="section">
+
+            <h2>
+
+                Results
+
+            </h2>
+
+            <div id="result">
+
+                <div class="welcome-screen">
+
+                    <div class="welcome-icon">
+
+                        🤖
+
+                    </div>
+
+                    <h2>
+
+                        Welcome to DBAgent
+
+                    </h2>
+
+                    <p>
+
+                        AI Powered Database Assistant
+
+                    </p>
+
+                    <br>
+
+                    <p>
+
+                        Ask a question to begin.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+
+</html>

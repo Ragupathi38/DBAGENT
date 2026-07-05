@@ -1,0 +1,1404 @@
+/* =====================================================
+   DBAgent v2
+   Part 1
+   Global + Layout + Sidebar
+===================================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+
+    scroll-behavior:smooth;
+
+}
+
+body{
+
+    background:#0f172a;
+
+    color:#f8fafc;
+
+    font-family:
+    "Segoe UI",
+    Arial,
+    sans-serif;
+
+    overflow:hidden;
+
+}
+
+/* ===========================
+   Scrollbar
+=========================== */
+
+::-webkit-scrollbar{
+
+    width:10px;
+
+}
+
+::-webkit-scrollbar-track{
+
+    background:#111827;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:#334155;
+
+    border-radius:20px;
+
+}
+
+::-webkit-scrollbar-thumb:hover{
+
+    background:#475569;
+
+}
+
+/* ===========================
+   Main Layout
+=========================== */
+
+.app{
+
+    display:flex;
+
+    height:100vh;
+
+    width:100%;
+
+}
+
+/* ===========================
+   Sidebar
+=========================== */
+
+.sidebar{
+
+    width:320px;
+
+    background:#111827;
+
+    border-right:1px solid #293548;
+
+    display:flex;
+
+    flex-direction:column;
+
+    padding:28px;
+
+    overflow-y:auto;
+
+}
+
+/* ===========================
+   Sidebar Heading
+=========================== */
+
+.sidebar h2{
+
+    font-size:40px;
+
+    margin-bottom:15px;
+
+}
+
+.sidebar h2 span{
+
+    font-size:18px;
+
+    font-weight:700;
+
+}
+
+/* ===========================
+   Database Name
+=========================== */
+
+#databaseName{
+
+    color:#60a5fa;
+
+    font-size:18px;
+
+    font-weight:600;
+
+    margin-bottom:30px;
+
+}
+
+/* ===========================
+   Database Explorer
+=========================== */
+
+#databaseExplorer{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:18px;
+
+}
+
+/* ===========================
+   Table Card
+=========================== */
+
+.table-card{
+
+    background:#1e293b;
+
+    border:1px solid #334155;
+
+    border-radius:14px;
+
+    padding:18px;
+
+    transition:.25s;
+
+}
+
+.table-card:hover{
+
+    transform:translateY(-4px);
+
+    border-color:#3b82f6;
+
+    box-shadow:
+
+    0 8px 24px
+
+    rgba(59,130,246,.20);
+
+}
+
+/* ===========================
+   Table Name
+=========================== */
+
+.table-card h3{
+
+    color:white;
+
+    margin-bottom:15px;
+
+    font-size:28px;
+
+}
+
+/* ===========================
+   Table Details
+=========================== */
+
+.table-card p{
+
+    color:#cbd5e1;
+
+    margin:8px 0;
+
+    font-size:15px;
+
+}
+
+/* ===========================
+   View Button
+=========================== */
+
+.table-card button{
+
+    width:100%;
+
+    margin-top:18px;
+
+}
+
+/* ===========================
+   Main Section
+=========================== */
+
+.main{
+
+    flex:1;
+
+    overflow-y:auto;
+
+    padding:45px;
+
+}
+
+/* ===========================
+   Main Heading
+=========================== */
+
+.main h1{
+
+    font-size:56px;
+
+    margin-bottom:35px;
+
+    font-weight:700;
+
+}
+
+/* ===========================
+   Section Titles
+=========================== */
+
+.main h2{
+
+    font-size:32px;
+
+    margin-top:35px;
+
+    margin-bottom:15px;
+
+}
+
+.main h3{
+
+    font-size:26px;
+
+    margin-bottom:12px;
+
+}
+
+/* ===========================
+   Divider
+=========================== */
+
+hr{
+
+    border:none;
+
+    border-top:1px solid #334155;
+
+    margin:20px 0;
+
+}
+
+/* ===========================
+   Utility
+=========================== */
+
+.hidden{
+
+    display:none;
+
+}
+
+.center{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+}
+
+.text-success{
+
+    color:#22c55e;
+
+}
+
+.text-warning{
+
+    color:#f59e0b;
+
+}
+
+.text-danger{
+
+    color:#ef4444;
+
+}
+
+.text-primary{
+
+    color:#60a5fa;
+
+}
+/* =====================================================
+   DBAgent UI v2
+   Part 2
+   Input + SQL + AI Cards + Buttons
+===================================================== */
+
+/* ===========================
+   Input Area
+=========================== */
+
+.main-input{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+    margin-bottom:35px;
+
+}
+
+/* ===========================
+   Question Input
+=========================== */
+
+#question{
+
+    flex:1;
+
+    background:#1e293b;
+
+    color:#ffffff;
+
+    border:2px solid #334155;
+
+    border-radius:14px;
+
+    padding:18px 22px;
+
+    font-size:16px;
+
+    transition:.25s;
+
+    outline:none;
+
+}
+
+#question:focus{
+
+    border-color:#3b82f6;
+
+    box-shadow:
+
+    0 0 0 4px
+
+    rgba(59,130,246,.15);
+
+}
+
+/* Placeholder */
+
+#question::placeholder{
+
+    color:#94a3b8;
+
+}
+
+/* ===========================
+   Ask Button
+=========================== */
+
+.main-input button{
+
+    min-width:150px;
+
+    height:58px;
+
+}
+
+/* ===========================
+   Buttons
+=========================== */
+
+button{
+
+    background:#2563eb;
+
+    color:white;
+
+    border:none;
+
+    border-radius:12px;
+
+    padding:14px 24px;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+button:hover{
+
+    background:#1d4ed8;
+
+    transform:translateY(-2px);
+
+    box-shadow:
+
+    0 8px 20px
+
+    rgba(37,99,235,.35);
+
+}
+
+button:active{
+
+    transform:scale(.98);
+
+}
+
+/* ===========================
+   SQL Section
+=========================== */
+
+#sql{
+
+    background:#111827;
+
+    border:1px solid #334155;
+
+    border-radius:14px;
+
+    padding:20px;
+
+    min-height:80px;
+
+    margin-top:15px;
+
+    color:#22c55e;
+
+    font-family:
+
+    Consolas,
+
+    monospace;
+
+    font-size:15px;
+
+    white-space:pre-wrap;
+
+    overflow:auto;
+
+    line-height:1.7;
+
+}
+
+/* ===========================
+   SQL Preview
+=========================== */
+
+.sql-preview{
+
+    background:#0b1220;
+
+    border:1px solid #334155;
+
+    border-radius:12px;
+
+    padding:18px;
+
+    color:#22c55e;
+
+    font-family:
+
+    Consolas,
+
+    monospace;
+
+    white-space:pre-wrap;
+
+    overflow:auto;
+
+    margin-top:15px;
+
+}
+
+/* ===========================
+   Conversation Card
+=========================== */
+
+.conversation-box{
+
+    background:#1f2937;
+
+    border:1px solid #334155;
+
+    border-radius:16px;
+
+    padding:25px;
+
+    margin-top:20px;
+
+    color:#f8fafc;
+
+    box-shadow:
+
+    0 10px 30px
+
+    rgba(0,0,0,.25);
+
+}
+
+.conversation-box h2{
+
+    margin-bottom:15px;
+
+}
+
+.conversation-box h3{
+
+    margin-bottom:15px;
+
+    color:#ffffff;
+
+}
+
+.conversation-box p{
+
+    color:#d1d5db;
+
+    line-height:1.8;
+
+}
+
+/* ===========================
+   AI Suggestion Card
+=========================== */
+
+.ai-suggestion{
+
+    background:#172554;
+
+    border-left:5px solid #3b82f6;
+
+    border-radius:12px;
+
+    padding:20px;
+
+    margin-top:20px;
+
+    color:white;
+
+}
+
+/* ===========================
+   Success Card
+=========================== */
+
+.success-card{
+
+    background:#14532d;
+
+    border-left:5px solid #22c55e;
+
+    color:white;
+
+    padding:18px;
+
+    border-radius:12px;
+
+    margin-top:20px;
+
+}
+
+/* ===========================
+   Error Card
+=========================== */
+
+.error-card{
+
+    background:#7f1d1d;
+
+    border-left:5px solid #ef4444;
+
+    color:white;
+
+    padding:18px;
+
+    border-radius:12px;
+
+    margin-top:20px;
+
+}
+
+/* ===========================
+   Warning Card
+=========================== */
+
+.warning-card{
+
+    background:#78350f;
+
+    border-left:5px solid #f59e0b;
+
+    color:white;
+
+    padding:18px;
+
+    border-radius:12px;
+
+    margin-top:20px;
+
+}
+
+/* ===========================
+   Recovery Card
+=========================== */
+
+.recovery-card{
+
+    background:#312e81;
+
+    border-left:5px solid #6366f1;
+
+    color:white;
+
+    padding:20px;
+
+    border-radius:12px;
+
+    margin-top:20px;
+
+}
+
+/* ===========================
+   Code Block
+=========================== */
+
+code{
+
+    background:#111827;
+
+    color:#22c55e;
+
+    padding:3px 8px;
+
+    border-radius:6px;
+
+    font-family:Consolas;
+
+}
+
+/* ===========================
+   Result Area
+=========================== */
+
+#result{
+
+    margin-top:25px;
+
+}
+/* =====================================================
+   DBAgent UI v2
+   Part 3
+   Tables + Explorer + Animation + Responsive
+===================================================== */
+
+/* ===========================
+   Result Table
+=========================== */
+
+.table-container{
+
+    width:100%;
+
+    overflow-x:auto;
+
+    margin-top:25px;
+
+    border-radius:14px;
+
+}
+
+.modern-table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    background:#1f2937;
+
+    border-radius:14px;
+
+    overflow:hidden;
+
+}
+
+.modern-table thead{
+
+    background:#2563eb;
+
+}
+
+.modern-table th{
+
+    padding:18px;
+
+    text-align:left;
+
+    color:white;
+
+    font-size:15px;
+
+    font-weight:600;
+
+}
+
+.modern-table td{
+
+    padding:16px;
+
+    color:#e5e7eb;
+
+    border-bottom:1px solid #334155;
+
+}
+
+.modern-table tbody tr{
+
+    transition:.25s;
+
+}
+
+.modern-table tbody tr:nth-child(even){
+
+    background:#233047;
+
+}
+
+.modern-table tbody tr:hover{
+
+    background:#334155;
+
+    cursor:pointer;
+
+}
+
+/* ===========================
+   Explorer Cards
+=========================== */
+
+.table-card{
+
+    position:relative;
+
+    overflow:hidden;
+
+}
+
+.table-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+
+    top:0;
+
+    width:4px;
+
+    height:100%;
+
+    background:#3b82f6;
+
+}
+
+/* ===========================
+   Explorer Animation
+=========================== */
+
+.table-card:hover h3{
+
+    color:#60a5fa;
+
+}
+
+/* ===========================
+   SQL Generator Animation
+=========================== */
+
+#sql{
+
+    transition:.3s;
+
+}
+
+#sql:hover{
+
+    border-color:#3b82f6;
+
+}
+
+/* ===========================
+   Input Animation
+=========================== */
+
+input{
+
+    transition:.25s;
+
+}
+
+input:hover{
+
+    border-color:#475569;
+
+}
+
+/* ===========================
+   Buttons
+=========================== */
+
+button{
+
+    transition:.25s;
+
+}
+
+button:active{
+
+    transform:scale(.97);
+
+}
+
+/* ===========================
+   Conversation Animation
+=========================== */
+
+.conversation-box{
+
+    animation:fadeUp .35s ease;
+
+}
+
+/* ===========================
+   Cards Animation
+=========================== */
+
+.table-card{
+
+    animation:fadeUp .4s ease;
+
+}
+
+/* ===========================
+   Fade Animation
+=========================== */
+
+@keyframes fadeUp{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(20px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+/* ===========================
+   Loading Spinner
+=========================== */
+
+.loader{
+
+    width:45px;
+
+    height:45px;
+
+    border:4px solid #334155;
+
+    border-top:4px solid #3b82f6;
+
+    border-radius:50%;
+
+    animation:spin .8s linear infinite;
+
+    margin:auto;
+
+}
+
+@keyframes spin{
+
+    from{
+
+        transform:rotate(0deg);
+
+    }
+
+    to{
+
+        transform:rotate(360deg);
+
+    }
+
+}
+
+/* ===========================
+   Toast Notification
+=========================== */
+
+.toast{
+
+    position:fixed;
+
+    right:30px;
+
+    bottom:30px;
+
+    background:#1f2937;
+
+    color:white;
+
+    padding:18px 24px;
+
+    border-radius:12px;
+
+    border-left:5px solid #22c55e;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.35);
+
+    z-index:9999;
+
+}
+
+/* ===========================
+   Section Cards
+=========================== */
+
+.section{
+
+    background:#111827;
+
+    border:1px solid #334155;
+
+    border-radius:16px;
+
+    padding:24px;
+
+    margin-bottom:25px;
+
+}
+
+/* ===========================
+   Footer
+=========================== */
+
+.footer{
+
+    margin-top:40px;
+
+    text-align:center;
+
+    color:#94a3b8;
+
+    font-size:14px;
+
+}
+
+/* ===========================
+   Responsive
+=========================== */
+
+@media(max-width:1200px){
+
+    .sidebar{
+
+        width:280px;
+
+    }
+
+}
+
+@media(max-width:992px){
+
+    .app{
+
+        flex-direction:column;
+
+    }
+
+    .sidebar{
+
+        width:100%;
+
+        height:auto;
+
+        border-right:none;
+
+        border-bottom:1px solid #334155;
+
+    }
+
+    .main{
+
+        padding:25px;
+
+    }
+
+}
+
+@media(max-width:768px){
+
+    .main-input{
+
+        flex-direction:column;
+
+    }
+
+    .main-input button{
+
+        width:100%;
+
+    }
+
+    .modern-table{
+
+        font-size:14px;
+
+    }
+
+}
+
+@media(max-width:600px){
+
+    .sidebar{
+
+        padding:18px;
+
+    }
+
+    .main{
+
+        padding:18px;
+
+    }
+
+    .conversation-box{
+
+        padding:18px;
+
+    }
+
+}
+
+/* ===========================
+   END OF DBAgent UI v2
+=========================== */
+/* ===========================
+   END OF DBAgent UI v2
+=========================== */
+
+
+/* =====================================
+   Welcome Screen
+===================================== */
+
+.welcome-screen{
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    text-align:center;
+
+    margin-top:80px;
+
+}
+
+.welcome-icon{
+
+    font-size:90px;
+
+    margin-bottom:25px;
+
+}
+
+.welcome-screen h2{
+
+    font-size:42px;
+
+    margin-bottom:10px;
+
+}
+
+.welcome-screen p{
+
+    color:#94a3b8;
+
+    font-size:18px;
+
+}
+
+.example-box{
+
+    margin-top:45px;
+
+    width:500px;
+
+    background:#1e293b;
+
+    border:1px solid #334155;
+
+    border-radius:15px;
+
+    padding:25px;
+
+}
+
+.example-box h3{
+
+    margin-bottom:20px;
+
+}
+
+.example-box ul{
+
+    list-style:none;
+
+}
+
+.example-box li{
+
+    padding:12px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+/* =====================================
+   Welcome Status
+===================================== */
+
+.welcome-status{
+
+    margin-top:45px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:15px;
+
+}
+
+.status-item{
+
+    background:#1e293b;
+
+    border:1px solid #334155;
+
+    border-radius:12px;
+
+    padding:18px 30px;
+
+    min-width:350px;
+
+    text-align:center;
+
+    color:#e2e8f0;
+
+    font-size:16px;
+
+    transition:.25s;
+
+}
+
+.status-item:hover{
+
+    border-color:#3b82f6;
+
+    transform:translateY(-2px);
+
+}
+/* ===============================
+   Explorer Search
+================================ */
+
+.search-box{
+
+    margin-bottom:20px;
+
+}
+
+.search-box input{
+
+    width:100%;
+
+    padding:14px;
+
+    border-radius:10px;
+
+    border:1px solid #334155;
+
+    background:#1e293b;
+
+    color:white;
+
+}
+
+/* ===============================
+   File Explorer
+================================ */
+
+.file-item{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:14px;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    margin-bottom:10px;
+
+}
+
+.file-item:hover{
+
+    background:#1e293b;
+
+}
+
+.file-left{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+
+}
+
+.file-icon{
+
+    font-size:34px;
+
+}
+
+.file-name{
+
+    font-size:18px;
+
+    font-weight:600;
+
+    color:white;
+
+}
+
+.file-meta{
+
+    color:#94a3b8;
+
+    font-size:14px;
+
+    margin-top:4px;
+
+}
+
+.file-arrow{
+
+    color:#94a3b8;
+
+    font-size:20px;
+
+}
+
+.table-count{
+
+    margin-top:20px;
+
+    color:#94a3b8;
+
+    text-align:center;
+
+    font-size:14px;
+
+}
+/* =====================================
+   Header
+===================================== */
+
+.top-header{
+
+    margin-bottom:35px;
+
+}
+
+.subtitle{
+
+    color:#94a3b8;
+
+    margin-top:8px;
+
+    font-size:18px;
+
+}
+
+/* =====================================
+   Main Sections
+===================================== */
+
+.section{
+
+    margin-top:30px;
+
+}
+
+.section h2{
+
+    margin-bottom:15px;
+
+}
+
+/* =====================================
+   SQL Box
+===================================== */
+
+#sql{
+
+    min-height:100px;
+
+    font-size:16px;
+
+}
+
+/* =====================================
+   Result
+===================================== */
+
+#result{
+
+    min-height:350px;
+
+}
